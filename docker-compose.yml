@@ -1,5 +1,22 @@
 version: '3.8'
 services:
+  front:
+    container_name: '${PROJECT_NAME}-front'
+    build:
+      context: ${ROOT_PATH}
+      dockerfile: front/Dockerfile
+    env_file: .env
+    working_dir: '/usr/src/front'
+    restart: always
+    ports:
+      - 3004:3000
+    volumes:
+      - ${ROOT_PATH}/.env.example:/usr/src/.env.example
+      - ${ROOT_PATH}/front:/usr/src/front
+    logging:
+      driver: json-file
+    networks:
+      - template_network
   back:
     container_name: '${PROJECT_NAME}-back'
     build:
@@ -17,6 +34,8 @@ services:
       - ${ROOT_PATH}/back:/usr/src/back
       - ${ROOT_PATH}/.env.example:/usr/src/.env.example
       - ${ROOT_PATH}/database/backups:/usr/src/database/backups
+    depends_on:
+      - db
     logging:
       driver: json-file
     networks:
