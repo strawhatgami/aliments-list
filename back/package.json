@@ -1,10 +1,11 @@
 {
   "name": "back",
   "version": "0.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:start": "nodemon --inspect=0.0.0.0 ./bin/www",
+    "dev:start": "nodemon --inspect=0.0.0.0 ./bin/www.js",
     "docker_entrypoint": "[ -e /usr/src/node_modules ] && mv /usr/src/node_modules .",
     "start": "npm run docker_entrypoint; npm run dev:start"
   },
@@ -12,8 +13,10 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "flat": "^5.0.2",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.25.3"
   }
 }
