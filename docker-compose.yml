@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  back:
+    container_name: '${PROJECT_NAME}-back'
+    build:
+      context: ${ROOT_PATH}
+      dockerfile: back/Dockerfile
+    env_file: .env
+    working_dir: '/usr/src/back'
+    restart: always
+    ports:
+      - 3003:3000
+    user: node
+    volumes:
+      - ${ROOT_PATH}/config:/usr/src/config
+      - ${ROOT_PATH}/bundles:/usr/src/bundles
+      - ${ROOT_PATH}/back:/usr/src/back
+      - ${ROOT_PATH}/.env.example:/usr/src/.env.example
+      - ${ROOT_PATH}/database/backups:/usr/src/database/backups
+    logging:
+      driver: json-file
+    networks:
+      - template_network
+  db:
+    image: mysql:5.7
+    container_name: ${DB__HOST}
+    volumes:
+      - ${ROOT_PATH}/database/data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB__ROOT_PASSWORD}
+      MYSQL_USER: ${DB__USER}
+      MYSQL_PASSWORD: ${DB__PASSWORD}
+      MYSQL_DATABASE: ${DB__NAME}
+    logging:
+      driver: json-file
+    networks:
+      - template_network
+
+networks:
+  template_network:

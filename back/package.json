@@ -1,0 +1,19 @@
+{
+  "name": "back",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:start": "nodemon --inspect=0.0.0.0 ./bin/www",
+    "docker_entrypoint": "[ -e /usr/src/node_modules ] && mv /usr/src/node_modules .",
+    "start": "npm run docker_entrypoint; npm run dev:start"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.20"
+  }
+}
