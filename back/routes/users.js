@@ -1,9 +1,8 @@
+import { serviceRouteWrap } from "../modules/misc.js";
+import services from "../services/index.js";
 import express from 'express';
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/me', serviceRouteWrap(services.getMe));
 
 export default router;

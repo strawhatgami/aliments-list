@@ -2,7 +2,7 @@ import {useState} from "react";
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { customFetch } from '../modules/utils.js';
-const API_ROOT_INTERNAL = "http://url-shortener-back:3000";
+const API_ROOT_INTERNAL = "http://courses-back:3000";
 const API_ROOT_EXTERNAL = "http://localhost:3003";
 
 export async function getServerSideProps(context) {
@@ -103,12 +103,12 @@ export default function Home({ data, error }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>URL Shortener</title>
+        <title>Mon Projet</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>URL Shortener</h1>
+        <h1 className={styles.title}>Mon projet</h1>
         <AuthInfo
           data={state.data}
           error={state.error}
