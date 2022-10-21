@@ -7,6 +7,8 @@ import cors from 'cors';
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
+import alimentsRouter from './routes/aliments.js';
+import listsRouter from './routes/lists.js';
 import {authRouter} from './modules/auth.js';
 import sessionMiddleware from './modules/session.js';
 
@@ -30,6 +32,8 @@ app.use(sessionMiddleware);
 app.use(authRouter());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/aliments', alimentsRouter);
+app.use('/lists', listsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

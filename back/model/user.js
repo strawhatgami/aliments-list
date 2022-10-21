@@ -12,6 +12,7 @@ const instanceMethods = {
   },
 }
 
+// TODO move model name in constants
 const Model = sequelize.define("User", {
   id: {
     type: DataTypes.INTEGER,
@@ -42,7 +43,5 @@ const augmentPrototype = (classObj, methods) => {
 }
 
 augmentPrototype(Model, instanceMethods);
-
-sequelize.sync();
 
 export default Model;

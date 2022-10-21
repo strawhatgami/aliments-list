@@ -31,6 +31,45 @@ const getAuth = async () => {
   return auth;
 }
 
+const createAliment = async (label, description) => {
+  const response = await customFetch({
+    method: "POST",
+    content: {label, description},
+    uri: API_ROOT_EXTERNAL + '/aliments',
+  });
+
+  return response;
+}
+
+const searchAlimentsByLabel = async (search) => {
+  const response = await customFetch({
+    method: "GET",
+    content: {search},
+    uri: API_ROOT_EXTERNAL + '/aliments',
+  });
+
+  return response;
+}
+
+const findListsByLabel = async (search) => {
+  const response = await customFetch({
+    method: "GET",
+    content: {search},
+    uri: API_ROOT_EXTERNAL + '/lists',
+  });
+
+  return response;
+}
+
+const addAlimentToList = async (list_id, aliment_id) => {
+  const response = await customFetch({
+    method: "GET",
+    uri: API_ROOT_EXTERNAL + `/lists/${list_id}/aliments/${aliment_id}`,
+  });
+
+  return response;
+}
+
 async function doLogin(username, password) {
   await customFetch({
     method: "POST",
@@ -58,6 +97,56 @@ const AuthForm = ({refreshUserInfo}) => {
   );
 }
 
+const AlimentCreationFormPresenter = ({ label, description, onLabelChange, onDescriptionChange, onSubmit }) => {
+  return (
+    <div>
+      <h3>Ajouter un aliment</h3>
+      <table>
+        <tbody>
+        <tr>
+            <td>Label:</td>
+            <td><input type="text" name={label} value={label} onChange={onLabelChange} /></td>
+          </tr>
+          <tr>
+            <td>Description:</td>
+            <td><input type="text" name={description} value={description} onChange={onDescriptionChange} /></td>
+          </tr>
+        </tbody>
+      </table>
+      <button onClick={onSubmit}>Créer</button>
+    </div>
+  )
+}
+const AlimentSearchForm = ({ data }) => {
+  // TODO
+}
+
+const AlimentCreationForm = ({ data }) => {
+  const [label, setLabel] = useState("");
+  const [description, setDescription] = useState("");
+
+// TODO validate onLabelChange
+  const onLabelChange = (e) => setLabel(e.target.value);
+// TODO validate onDescriptionChange
+  const onDescriptionChange = (e) => setDescription(e.target.value);
+  const onSubmit = () => {
+    (async () => {
+      await createAliment(label, description);
+// TODO handle request failure, for example if aliment already exists
+      setLabel("");
+      setDescription("");
+    })();
+  };
+
+  return <AlimentCreationFormPresenter
+    label={label}
+    description={description}
+    onLabelChange={onLabelChange}
+    onDescriptionChange={onDescriptionChange}
+    onSubmit={onSubmit}
+  />
+}
+
 const View = ({ data }) => {
   if (!data?.name) {
     return (
@@ -67,7 +156,12 @@ const View = ({ data }) => {
     );
   }
 
-  return <div></div>;
+  return (
+    <>
+      <AlimentCreationForm />
+    </>
+  )
+;
 }
 
 const AuthInfo = ({ data, error, refreshUserInfo }) => {
@@ -103,12 +197,12 @@ export default function Home({ data, error }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Mon Projet</title>
+        <title>Listes de courses partagées</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Mon projet</h1>
+        <h1 className={styles.title}>Listes de courses partagées</h1>
         <AuthInfo
           data={state.data}
           error={state.error}
